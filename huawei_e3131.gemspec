@@ -1,7 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'huawei_e3131'
-  s.version = '0.1.0'
-  s.summary = 'Checks the Huawei E3131 SMS inbox for new messages using the HTTP API.'
+  s.version = '0.1.1'
+  s.summary = 'Checks the Huawei E3131 SMS inbox for new ' +
+      'messages using the HTTP API.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/huawei_e3131.rb']
   s.add_runtime_dependency('rexle', '~> 1.5', '>=1.5.2')

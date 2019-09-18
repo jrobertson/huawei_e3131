@@ -4,6 +4,8 @@
 
 require 'rexle'
 require 'rest_client'
+require 'rexle-builder'
+
 
 
 # HOWTO: Switching the Huawei E3131  to network controller mode
@@ -45,16 +47,20 @@ class HuaweiE3131
 
   def messages()
 
-    response = RestClient.post "http://#{@host}/api/sms/sms-list", 
-      "<request><PageIndex>1</PageIndex><ReadCount>20</ReadCount>" + 
-      "<BoxType>1</BoxType><SortType>0</SortType><Ascending>0</Ascending>" + 
-      "<UnreadPreferred>0</UnreadPreferred></request>", 
-      :content_type => "text/xml"
+    options = {PageIndex: 1, ReadCount: 20, BoxType: 1, SortType: 0, 
+               Ascending: 0, UnreadPreferred: 0}
+
+    a = RexleBuilder.new(options, debug: false).to_a
+    a[0] = 'request'
+    xml = Rexle.new(a).xml(declaration: false)    
+    
+    response = RestClient.post "http://#{@host}/api/sms/sms-list", xml.to_s, 
+        :content_type => "text/xml"        
 
     Rexle.new(response.body).root.xpath('Messages/Message').map do |message|
 
       message.xpath('./*').inject({}) do |r,x|
-        x.text ? r.merge(x.name => x) : r
+        x.text ? r.merge(x.name => x.text.unescape) : r
       end
 
     end
