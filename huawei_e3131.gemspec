@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'huawei_e3131'
-  s.version = '0.1.1'
+  s.version = '0.1.2'
   s.summary = 'Checks the Huawei E3131 SMS inbox for new ' +
       'messages using the HTTP API.'
   s.authors = ['James Robertson']

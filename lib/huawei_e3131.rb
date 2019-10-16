@@ -25,8 +25,12 @@ require 'rexle-builder'
 
 class HuaweiE3131
 
-  def initialize(host='192.168.1.1', callback: nil)
+  def initialize(host='192.168.1.1', callback: nil, autostart: false)
+    
     @host, @callback = host, callback
+    
+    start if autostart
+    
   end
 
   def check_notifications()
@@ -65,6 +69,12 @@ class HuaweiE3131
 
     end
 
+  end
+  
+  # read an SMS message
+  #
+  def read(idx=1)  
+    messages[idx.to_i-1]
   end
 
   def sms_count()
